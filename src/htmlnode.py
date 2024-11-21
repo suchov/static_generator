@@ -34,5 +34,8 @@ class LeafNode(HTMLNode):
             return self.value
         return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
+    def __repr__(self):
+        return f"LeafNode({self.tag}, {self.value}, {self.props})"
+
     def __init_subclass__(cls, *args, **kwargs):
         raise TypeError(f"Subclassing {cls.__name__} is not allowed.")
