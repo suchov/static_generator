@@ -39,3 +39,22 @@ class LeafNode(HTMLNode):
 
     def __init_subclass__(cls, *args, **kwargs):
         raise TypeError(f"Subclassing {cls.__name__} is not allowed.")
+
+
+class ParentNode(HTMLNode):
+    def __init__(self, tag, children, props=None):
+        if not tag:
+            raise ValueError("ParentNode must have a tag to render.")
+        if not children:
+            raise ValueError("ParentNode must have children to render.")
+        # return a string representing the html tag of the node and it's child
+        super().__init__(tag=tag, children=children, props=props)
+
+    def to_html(self):
+        if not self.tag:
+            raise ValueError("ParentNode must have a tag to render.")
+        if not self.children:
+            raise ValueError("ParentNode must have children to render.")
+        # return a string representing the html tag of the node and it's chil
+        children_html = "".join(child.to_html() for child in self.children)
+        return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
