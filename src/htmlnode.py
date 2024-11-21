@@ -56,5 +56,10 @@ class ParentNode(HTMLNode):
         if not self.children:
             raise ValueError("ParentNode must have children to render.")
         # return a string representing the html tag of the node and it's chil
-        children_html = "".join(child.to_html() for child in self.children)
+        children_html = ""
+        for child in self.children:
+            children_html += child.to_html()
         return f"<{self.tag}{self.props_to_html()}>{children_html}</{self.tag}>"
+
+    def __repr__(self):
+        return f"ParentNode({self.tag}, children: {self.children}, {self.props})"
