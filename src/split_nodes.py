@@ -8,6 +8,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         if node.text_type != TextType.TEXT:
             new_nodes.append(node)
             continue
+        split_nodes = []
         parts = node.text.split(delimiter)
         if len(parts) % 2 == 0:
             raise ValueError(f"Unmatched delimiter '{delimiter}' in text {node.text}")
@@ -15,7 +16,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
         for i, part in enumerate(parts):
             if i % 2 == 0:
                 if part:
-                    new_nodes.append(TextNode(part, TextType.TEXT))
+                    split_nodes.append(TextNode(part, TextType.TEXT))
             else:
-                new_nodes.append(TextNode(part, text_type))
+                split_nodes.append(TextNode(part, text_type))
+        new_nodes.extend(split_nodes)
     return new_nodes
