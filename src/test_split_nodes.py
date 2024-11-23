@@ -57,5 +57,18 @@ class TestSplitNodesDeliviter(unittest.TestCase):
         with self.assertRaises(ValueError):
             split_nodes_delimiter([node], "**", TextType.BOLD)
 
+    def test_delim_bold_and_italic(self):
+        node = TextNode("**bold** and *italic*", TextType.TEXT)
+        new_nodes = split_nodes_delimiter([node], "**", TextType.BOLD)
+        new_nodes = split_nodes_delimiter(new_nodes, "*", TextType.ITALIC)
+        self.assertListEqual(
+            [
+                TextNode("bold", TextType.BOLD),
+                TextNode(" and ", TextType.TEXT),
+                TextNode("italic", TextType.ITALIC),
+            ],
+            new_nodes,
+        )
+
     if __name__ == "main":
         unittest.main()
